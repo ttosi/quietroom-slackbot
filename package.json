@@ -1,0 +1,19 @@
+{
+  "name": "quietroom-bot",
+  "version": "1.0.0",
+  "description": "A slackbot to control notification LED in a quiet room",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttosi/quietroom-slackbot.git"
+  },
+  "author": "Tony S. Tosi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ttosi/quietroom-slackbot/issues"
+  },
+  "homepage": "https://github.com/ttosi/quietroom-slackbot#readme"
+}
