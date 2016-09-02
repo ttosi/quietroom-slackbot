@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/ttosi/quietroom-slackbot/issues"
   },
-  "homepage": "https://github.com/ttosi/quietroom-slackbot#readme"
+  "homepage": "https://github.com/ttosi/quietroom-slackbot#readme",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "log4js": "^0.6.38",
+    "promise": "^7.1.1",
+    "slackbots": "^0.5.2",
+    "sugar": "^2.0.1"
+  }
 }
