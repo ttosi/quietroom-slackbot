@@ -5,7 +5,7 @@ var Desks = {
     assign: function(user, deskname) {
         if(Sugar.Object.some(Desks.inuse(), function(d) { return d.user.name === user.name })) {
             return 'Ummm, bro. It\'s Looking like you think you figured out how ' +
-                   'to clone yourself. You wish! You\'re actual ' +
+                   'to clone yourself. Hah, you wish! You\'re actual ' +
                    'self is already using a quiet desk.';
         }
 
@@ -28,6 +28,9 @@ var Desks = {
         return Sugar.Object.filter(Desks.all, function(d) {
             return d.user === undefined;
         });
+    },
+    listnames: function() {
+
     },
     all: [{
        name: 'qd1',
