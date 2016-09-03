@@ -10,9 +10,7 @@ var commands = require('./commands.js'),
     desks = require('./desks.js');
 
 var users = [];
-var botparams = {
-        icon_emoji: process.env.BOT_EMOJI
-    };
+var botparams = { icon_emoji: process.env.BOT_EMOJI };
 
 var bot = new SlackBot({
     token: process.env.SLACKBOT_TOKEN,
@@ -23,9 +21,10 @@ bot.on('start', function() {
     bot.getUsers()
         .done(function(data) {
             users = data.members;
+            Log.trace('users: ' + users.length);
         });
 
-    Log.trace('started bot: ' + process.env.BOT_NAME);
+    Log.trace('bot initialzed: ' + process.env.BOT_NAME);
     Log.trace('token: ' + process.env.SLACKBOT_TOKEN);
 });
 
@@ -33,7 +32,7 @@ bot.on('message', function(data) {
     if(data.type === 'message' && data.subtype !== 'bot_message' ) {
         var tokens = data.text.split(' ');
         var commandname = tokens.shift().toLowerCase();
-        var params = tokens.join(' ');
+        var commandparams = tokens.join(' ');
 
         var command = commands.list[Sugar.Object.find(commands.list, function(c) {
             return c.names.indexOf(commandname) !== -1;
@@ -50,7 +49,7 @@ bot.on('message', function(data) {
             return;
         }
 
-        command.action()
+        command.action(commandparams)
             .done(function(response, reject) {
                 bot.postMessageToUser(user.name, response, botparams);
                 Log.info(Sugar.String.format('user: {0}, command: {1}',

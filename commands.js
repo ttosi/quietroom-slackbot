@@ -1,5 +1,6 @@
 var Sugar = require('sugar'),
-    Promise = require('promise');
+    Promise = require('promise'),
+    desks = require('./desks.js');
 
 var Commands = {
     help: function() {
@@ -47,9 +48,9 @@ var Commands = {
             params: ['desk one|desk two'],
             response: '',
             description:'Assign yourself to a desk in the quiet room.',
-            action: function() {
+            action: function(user) {
                 return new Promise(function(resolve, reject) {
-                    resolve('use');
+                    resolve(Desk.assign());
                 });
             }
         },
