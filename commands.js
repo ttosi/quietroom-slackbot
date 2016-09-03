@@ -39,7 +39,7 @@ var Commands = {
             description:'Lists all of the desks and, if it\'s in use, the person who\'s using it.',
             action: function() {
                 return new Promise(function(resolve, reject) {
-                    resolve('list');
+                    resolve(desks.list());
                 });
             }
         },
@@ -47,7 +47,7 @@ var Commands = {
             names: ['use', 'take'],
             params: ['deskname'],
             response: '',
-            description:'Assign yourself to a desk in the quiet room. Use "list" to see available desks.',
+            description:'Assign yourself to a desk. Use "list" to see available desks.',
             action: function(user, deskname) {
                 return new Promise(function(resolve, reject) {
                     resolve(desks.assign(user, deskname));
@@ -59,9 +59,9 @@ var Commands = {
             params: [],
             response: '',
             description:'Leave your quiet room desk.',
-            action: function() {
+            action: function(user) {
                 return new Promise(function(resolve, reject) {
-                    resolve('leave');
+                    resolve(desks.leave(user));
                 });
             }
         },
@@ -110,13 +110,13 @@ var Commands = {
             }
         },
         {
-            names: ['wait', 'holdon', 'seriously?'],
+            names: ['wait', 'holdon'],
             params: ['minutes'],
             response: '',
             description:'This will pause the alert for the number of minutes speficied. It can only be used for low and medium alerts.',
             action: function() {
                 return new Promise(function(resolve, reject) {
-                    resolve('stop');
+                    resolve('holdon');
                 });
             }
         },
@@ -127,7 +127,18 @@ var Commands = {
             description:'This will cancel your alert and notify the sender (probably not a wise choice if they\'re screaming).',
             action: function() {
                 return new Promise(function(resolve, reject) {
-                    resolve('stop');
+                    resolve('cancel');
+                });
+            }
+        },
+        {
+            names: ['mute', 'ignore', 'seriously?'],
+            params: ['minutes'],
+            response: '',
+            description:'This will mute all incoming alerts for the minutes specified (use this when you\'re being abused).',
+            action: function() {
+                return new Promise(function(resolve, reject) {
+                    resolve('mute');
                 });
             }
         },
@@ -135,10 +146,10 @@ var Commands = {
             names: ['boot', 'kick'],
             params: ['deskname'],
             response: '',
-            description:'This will boot whomever is siiting at that desk. The person at the desk will have 2 minutes to respond before they\'re booted, unless, of course it\'s a ghostbot (they\'re real you know).',
+            description:'This will boot whomever is siiting at that desk. Cool, huh?',
             action: function() {
                 return new Promise(function(resolve, reject) {
-                    resolve('stop');
+                    resolve('boot');
                 });
             }
         }
