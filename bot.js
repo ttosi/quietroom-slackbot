@@ -7,6 +7,7 @@ var SlackBot = require('slackbots'),
     Sugar = require('sugar');
 
 var commands = require('./commands.js'),
+    users = require('./users.js'),
     desks = require('./desks.js');
 
 var users = [];
@@ -49,16 +50,17 @@ bot.on('message', function(data) {
             return;
         }
 
-        command.action(commandparams)
-            .done(function(response, reject) {
+        command.action(user, commandparams)
+            .then(function(response) {
                 bot.postMessageToUser(user.name, response, botparams);
                 Log.info(Sugar.String.format('user: {0}, command: {1}',
                     user.name,
                     data.text
                 ));
+            })
+            .catch(function(err) {
+                bot.postMessageToUser(user.name, 'Oops. Something went wrong. I\'ve logged the error and notified my owner.', botparams);
+                Log.error(Sugar.String.format('user: {0}, err: {1}', user.name, err));
             });
     }
 });
-
-// bot.postMessageToUser(user.name, 'Oops. Something went wrong. I\ve logged the error and notified my master.', botparams);
-// Log.error(Sugar.String.format('user: {0}, err: {1}', user.name, err));

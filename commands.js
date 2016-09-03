@@ -48,9 +48,9 @@ var Commands = {
             params: ['desk one|desk two'],
             response: '',
             description:'Assign yourself to a desk in the quiet room.',
-            action: function(user) {
+            action: function(user, deskname) {
                 return new Promise(function(resolve, reject) {
-                    resolve(Desk.assign());
+                    resolve(desks.assign(user, deskname));
                 });
             }
         },
