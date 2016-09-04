@@ -8,10 +8,10 @@ var Commands = {
         var commands = [];
         sugar.Object.forEach(this.list, function(c) {
             commands.push(
-                sugar.String.format('```{0} {1} - {2}```',
+                sugar.String.format('```{0} {1}- {2}```',
                      c.names.join('|'),
                      c.params.length > 0 ?
-                        '[' + c.params.join(' ') + ']' :
+                        '[' + c.params.join(' ') + '] ' :
                         '',
                      c.description
                 )
@@ -19,14 +19,24 @@ var Commands = {
         });
         return commands.join('\r\n');
     },
-    validate: function(cmd) {
+    parse: function(cmdText) {
+        var tokens = cmdText.split(' ');
+        var name = tokens.shift().toLowerCase();
+        var param = tokens.join(' ').toLowerCase();
+        var command = Commands.list[sugar.Object.find(Commands.list, function(c) {
+            return c.names.indexOf(name) !== -1;
+        })];
+
+        return {
+            command: command,
+            param: param
+        };
     },
     list: [
         {
             names: ['help'],
             params: [],
-            response: '',
-            description:'Shows this list of commands.',
+            description: 'List available commands.',
             execute: function() {
                 return new promise(function(resolve, reject) {
                     resolve(Commands.help());
@@ -36,8 +46,7 @@ var Commands = {
         {
             names: ['list', 'show', 'who'],
             params: [],
-            response: '',
-            description:'Lists all of the desks and, if it\'s in use, the person who\'s using it.',
+            description: 'List desks and who\'s using it.',
             execute: function() {
                 return new promise(function(resolve, reject) {
                     resolve(Desk.list());
@@ -47,8 +56,7 @@ var Commands = {
         {
             names: ['use', 'take'],
             params: ['deskname'],
-            response: '',
-            description:'Assign yourself to a desk. Use "list" to see available desks.',
+            description: 'Assign yourself to a desk.',
             execute: function(user, deskname) {
                 return new promise(function(resolve, reject) {
                     resolve(Desk.assign(user, deskname));
@@ -58,8 +66,7 @@ var Commands = {
         {
             names: ['leave', 'quit', 'exit'],
             params: [],
-            response: '',
-            description:'Leave your quiet room desk.',
+            description: 'Leave your desk.',
             execute: function(user) {
                 return new promise(function(resolve, reject) {
                     resolve(Desk.leave(user));
@@ -69,88 +76,80 @@ var Commands = {
         {
             names: ['call', 'whisper'],
             params: ['username'],
-            response: '',
-            description:'Send a low alert (slowly fade the light in & out in yellow).',
+            description: 'Send low alert.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('call');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['hail'],
             params: ['username'],
-            response: '',
-            description:'Send a medium alert (pulses the light in orange).',
+            description: 'Send medium alert.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('hail');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['yell'],
             params: ['username'],
-            response: '',
-            description:'Send a high alert (rapidly flashes the light in red).',
+            description: 'Send high alert.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('yell');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['911', 'scream'],
             params: ['username'],
-            response: '',
-            description:'Send a critical alert (alternates the light in blue & red).',
+            description: 'Send critical alert. Don\'t cry wolf, okay?',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('911');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['wait', 'holdon'],
             params: ['minutes'],
-            response: '',
-            description:'This will pause the alert for the number of minutes speficied. It can only be used for low and medium alerts.',
+            description: 'Pause alert for minutes speficied. Works only for low and medium alerts.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('holdon - my creator is still working on this one!');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['cancel', 'stop'],
             params: [],
-            response: '',
-            description:'This will cancel your alert and notify the sender (probably not a wise choice if they\'re screaming).',
+            description: 'Cancel your alert and notify the sender (not a wise choice if they\'re screaming).',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('cancel - my creator is still working on this one!');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['mute', 'ignore', 'seriously?'],
             params: ['minutes'],
-            response: '',
-            description:'This will mute all incoming alerts for the minutes specified (use this when you\'re being abused).',
+            description: 'Mute all incoming alerts for the minutes specified.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('mute - my creator is still working on this one!');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         },
         {
             names: ['boot', 'kick'],
             params: ['deskname'],
-            response: '',
-            description:'This will boot whomever is siiting at that desk. Cool, huh?',
+            description: 'Boot whoever is siiting at that desk.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('boot - my creator is still working on this one!');
+                    resolve('My creator hasn\'t taught me how to do this one yet.');
                 });
             }
         }

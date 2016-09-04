@@ -15,7 +15,7 @@ var Desks = {
 
             desks.push(
                 Sugar.String.format(
-                    '```{0} ({1}) {2}```',
+                    '```{0} [{1}] {2}```',
                     d.friendly,
                     d.name,
                     d.in_use_by ? occupier : 'is AVAILABLE!'
@@ -45,6 +45,10 @@ var Desks = {
         return ':+1: The desk is yours! Go get some work done! ';
     },
     leave: function (user) {
+        if(!user.desk) {
+            return 'What up yo. You\'re not sitting at a desk in there.';
+        }
+
         user.desk.in_use_by = undefined,
         desk.occupied_at = undefined;
         delete user.desk;
@@ -63,14 +67,14 @@ var Desks = {
     },
     all: [{
        name: 'qd1',
-       friendly: 'Quiet Desk One',
+       friendly: 'Desk 1',
        location: 'Quiet Room',
        in_use_by: undefined,
        occupied_at: undefined
     },
     {
        name: 'qd2',
-       friendly: 'Quiet Desk Two',
+       friendly: 'Desk 2',
        location: 'Quiet Room',
        in_use_by: undefined,
        occupied_at: undefined
