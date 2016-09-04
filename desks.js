@@ -5,14 +5,24 @@ var Desks = {
     list: function() {
         var desks = [];
         Sugar.Object.forEach(this.all, function(d) {
+            var hoursAgo = Math.floor(Sugar.Date.hoursAgo(d.occupied_at) % 24);
+            var occupier = Sugar.String.format(
+                'has been occupied by {0} for {1}{2}m.',
+                d.in_use_by,
+                hoursAgo > 0 ? hoursAgo + 'h ' : '',
+                Math.floor(Sugar.Date.minutesAgo(d.occupied_at) % 60)
+            );
+
             desks.push(
-                Sugar.String.format('```{0} ({1}) {2}```',
+                Sugar.String.format(
+                    '```{0} ({1}) {2}```',
                     d.friendly,
                     d.name,
-                    d.in_use_by ? 'is occupied by ' + d.in_use_by : 'is AVAILABLE!'
+                    d.in_use_by ? occupier : 'is AVAILABLE!'
                 )
             );
         });
+
         return desks.join('\r\n');
     },
     assign: function(user, deskname) {
@@ -25,16 +35,18 @@ var Desks = {
             return 'That desk doesn\'t exist or someone else is using it.';
         }
 
-        user.desk = desk;
+        desk.occupied_at = new Date();
         desk.in_use_by = Sugar.String.format('{0} {1}.',
             user.profile.first_name,
             user.profile.last_name.charAt(0)
         );
+        user.desk = desk;
 
-        return 'The desk is yours! :+1: Go get some work done! ';
+        return ':+1: The desk is yours! Go get some work done! ';
     },
     leave: function (user) {
         user.desk.in_use_by = undefined,
+        desk.occupied_at = undefined;
         delete user.desk;
 
         return 'You must now return to the glorious chaos of the office.';
@@ -54,12 +66,14 @@ var Desks = {
        friendly: 'Quiet Desk One',
        location: 'Quiet Room',
        in_use_by: undefined,
+       occupied_at: undefined
     },
     {
        name: 'qd2',
        friendly: 'Quiet Desk Two',
        location: 'Quiet Room',
        in_use_by: undefined,
+       occupied_at: undefined
     }]
 };
 

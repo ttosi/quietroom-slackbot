@@ -27,13 +27,14 @@ bot.on('start', function() {
 
     Log.trace('bot initialzed: ' + process.env.BOT_NAME);
     Log.trace('token: ' + process.env.SLACKBOT_TOKEN);
+    Log.trace('started at: ' + new Date());
 });
 
 bot.on('message', function(data) {
     if(data.type === 'message' && data.subtype !== 'bot_message' ) {
         var tokens = data.text.split(' ');
         var commandname = tokens.shift().toLowerCase();
-        var commandparams = tokens.join(' ');
+        var commandparam = tokens.join(' ').toLowerCase();
 
         var command = commands.list[Sugar.Object.find(commands.list, function(c) {
             return c.names.indexOf(commandname) !== -1;
@@ -43,14 +44,14 @@ bot.on('message', function(data) {
 
         if(!command) {
             bot.postMessageToUser(user.name, 'I\'m sorry, you\'re not making any sense. Asking for `help` might be a good idea.', botparams);
-            Log.error(Sugar.String.format('unkown command from: {0}, attempted: {1}',
+            Log.error(Sugar.String.format('user: {0}, unknown comannd: {1}',
                 user.name,
                 data.text
             ));
             return;
         }
 
-        command.action(user, commandparams)
+        command.execute(user, commandparam)
             .then(function(response) {
                 bot.postMessageToUser(user.name, response, botparams);
                 Log.info(Sugar.String.format('user: {0}, command: {1}',
@@ -60,7 +61,10 @@ bot.on('message', function(data) {
             })
             .catch(function(err) {
                 bot.postMessageToUser(user.name, 'Oops. Something went wrong. I\'ve logged the error and notified my owner.', botparams);
-                Log.error(Sugar.String.format('user: {0}, err: {1}', user.name, err));
+                Log.error(Sugar.String.format('user: {0}, err: {1}',
+                    user.name,
+                    err
+                ));
             });
     }
 });
