@@ -1,12 +1,20 @@
-#ws2812.init()
+uart.setup(0, 9600, 8, 0, 1, 0)
+print("initialzed")
 
-i = 0
-while i < 100 do
-    ws2812.writergb(4, string.char(0, 0, 255, 255, 0, 0))
-    tmr.delay(100000)
+if file.open("config.lua", "r") then
+	settings = file.readline()
+	file.close()
 
-    ws2812.writergb(4, string.char(255, 0, 255, 0, 0, 255))
-    tmr.delay(100000)
+	ssid, psk, deskname = string.match(settings, "ssid={(.+)}:psk={(.+)}:deskname={(.+)}")
+    print("ssid: ", ssid)
+    print("psk: ", psk)
 
-    i = i + 1
+    wifi.setmode(wifi.STATION)
+	wifi.sta.config(ssid, psk)
+
+	tmr.alarm(0, 3000, 0, function()
+		--dofile("client.lua")
+        print("client started")
+
+	end)
 end
