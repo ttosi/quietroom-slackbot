@@ -46,11 +46,11 @@ var Desks = {
     },
     leave: function (user) {
         if(!user.desk) {
-            return 'What up yo. You\'re not sitting at a desk in there.';
+            return 'What up yo. You\'re not sitting at a desk in the quiet room.';
         }
 
         user.desk.in_use_by = undefined,
-        desk.occupied_at = undefined;
+        user.desk.occupied_at = undefined;
         delete user.desk;
 
         return 'You must now return to the glorious chaos of the office.';
@@ -67,14 +67,14 @@ var Desks = {
     },
     all: [{
        name: 'qd1',
-       friendly: 'Desk 1',
+       friendly: 'Quiet Desk 1',
        location: 'Quiet Room',
        in_use_by: undefined,
        occupied_at: undefined
     },
     {
        name: 'qd2',
-       friendly: 'Desk 2',
+       friendly: 'Quiet Desk 2',
        location: 'Quiet Room',
        in_use_by: undefined,
        occupied_at: undefined

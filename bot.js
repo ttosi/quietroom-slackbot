@@ -39,7 +39,7 @@ bot.on('message', function(data) {
             bot.postMessageToUser(user.name,
                 'I\'m sorry, you\'re not making any sense. ' +
                 'Asking for `help` might be a good idea.', bot);
-            log.error(sugar.String.format('user: {0}, unknown comannd: {1}',
+            log.error(sugar.String.format('user: {0}, unknown: {1}',
                 user.name,
                 data.text
             ));
@@ -49,14 +49,14 @@ bot.on('message', function(data) {
         cmd.command.execute(user, cmd.param)
             .then(function(response) {
                 bot.postMessageToUser(user.name, response, botparams);
-                log.info(sugar.String.format('user: {0}, command: {1}',
+                log.info(sugar.String.format('user: {0}, {1}',
                     user.name,
                     data.text
                 ));
             })
             .catch(function(err) {
                 bot.postMessageToUser(user.name, 'Oops. Something went wrong. I\'ve logged the error and notified my owner.', botparams);
-                log.error(sugar.String.format('user: {0}, err: {1}',
+                log.error(sugar.String.format('user: {0}, {1}',
                     user.name,
                     err
                 ));
