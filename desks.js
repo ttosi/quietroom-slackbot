@@ -65,20 +65,23 @@ var Desks = {
             return !d.in_use_by;
         });
     },
-    all: [{
-       name: 'qd1',
-       friendly: 'Quiet Desk 1',
-       location: 'Quiet Room',
-       in_use_by: undefined,
-       occupied_at: undefined
-    },
-    {
-       name: 'qd2',
-       friendly: 'Quiet Desk 2',
-       location: 'Quiet Room',
-       in_use_by: undefined,
-       occupied_at: undefined
-    }]
+    all:
+    [
+        {
+           name: 'qd1',
+           friendly: 'Quiet Desk 1',
+           location: 'Quiet Room',
+           in_use_by: undefined,
+           occupied_at: undefined
+        },
+        {
+           name: 'qd2',
+           friendly: 'Quiet Desk 2',
+           location: 'Quiet Room',
+           in_use_by: undefined,
+           occupied_at: undefined
+       }
+    ]
 };
 
 module.exports = Desks;
