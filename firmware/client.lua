@@ -3,7 +3,7 @@
 
 --  Connect to the quiet bot server
 conn = net.createConnection(net.TCP, 0)
-conn:connect(1337, "10.0.0.11")
+conn:connect(1337, "127.0.0.1")
 
 --  On successful connection, send the deskid
 --  so the server can register it to this device

@@ -7,9 +7,9 @@ var slackBot = require('slackbots'),
     sugar = require('sugar');
 
 var Command = require('./commands.js'),
-    users = require('./users.js');
+    User = require('./users.js');
 
-var users = [];
+//var users = [];
 var botparams = { icon_emoji: process.env.BOT_EMOJI };
 
 var bot = new slackBot({
@@ -20,9 +20,9 @@ var bot = new slackBot({
 bot.on('start', function() {
     bot.getUsers()
         .done(function(data) {
-            users = data.members;
-            log.trace('total users: ' + users.length);
-            log.trace('active users: ' + sugar.Object.count(users, { presence: 'active', is_bot: false }));
+            User.list = data.members;
+            log.trace('total users: ' + User.list.length);
+            log.trace('active users: ' + sugar.Object.count(User.list, { presence: 'active', is_bot: false }));
         });
 
     log.trace('initialzed: ' + process.env.BOT_NAME);
@@ -33,7 +33,10 @@ bot.on('start', function() {
 bot.on('message', function(data) {
     if(data.type === 'message' && data.subtype !== 'bot_message' ) {
         var cmd = Command.parse(data.text)
-        var user = users[sugar.Object.find(users, { id: data.user })];
+        console.log(data.user);
+        var user = User.get(data.user);
+
+        console.log('user: ' + user);
 
         if(!cmd.command) {
             bot.postMessageToUser(user.name,

@@ -1,19 +1,17 @@
-var Sugar = require('sugar'),
-    Promise = require('promise');
+'use strict'
 
-var desks = require('./desks.js');
+var sugar = require('sugar'),
+    promise = require('promise'),
+    _ = require('lodash');
 
-var Users = {
+var User = {
     get: function(id) {
-        return Users.list[Sugar.Object.find(Users.list, { id: id })];
+        return _.find(User.list, { id: id })
     },
     init: function() {
 
     },
-    isassigned: function() {
-        return Sugar.Object.some()
-    },
     list: []
 };
 
-module.exports = Users;
+module.exports = User;

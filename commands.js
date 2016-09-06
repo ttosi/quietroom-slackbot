@@ -1,5 +1,6 @@
 var sugar = require('sugar'),
-    promise = require('promise');
+    promise = require('promise')
+    _ = require('lodash');
 
 var Desk = require('./desks.js');
 
@@ -23,14 +24,22 @@ var Commands = {
         var tokens = cmdText.split(' ');
         var name = tokens.shift().toLowerCase();
         var param = tokens.join(' ').toLowerCase();
-        var command = Commands.list[sugar.Object.find(Commands.list, function(c) {
-            return c.names.indexOf(name) !== -1;
-        })];
 
         return {
-            command: command,
+            command: Commands.get(name),
             param: param
         };
+    },
+    get: function(name) {
+        // return sugar.Object.filter(Commands.list, function(c) {
+        //     return c.names.indexOf(name) !== -1;
+        // })[0];
+        //
+        // return 
+
+        return _.find(Commands.list, function(c) {
+            return c.names.indexOf(name) !== -1;
+        });
     },
     list: [
         {
