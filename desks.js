@@ -56,14 +56,14 @@ var Desks = {
         return 'You must now return to the glorious chaos of the office.';
     },
     inuse: function() {
-        return Sugar.Object.filter(Desks.all, function(d) {
-            return d.in_use_by;
-        });
+        // return Sugar.Object.filter(Desks.all, function(d) {
+        //     return d.in_use_by;
+        // });
     },
     available: function() {
-        return Sugar.Object.filter(Desks.all, function(d) {
-            return !d.in_use_by;
-        });
+        // return Sugar.Object.filter(Desks.all, function(d) {
+        //     return !d.in_use_by;
+        // });
     },
     all:
     [

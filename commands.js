@@ -2,7 +2,8 @@ var sugar = require('sugar'),
     promise = require('promise')
     _ = require('lodash');
 
-var Desk = require('./desks.js');
+var Desk = require('./desks.js'),
+    Server = require('./server.js');
 
 var Commands = {
     help: function() {
@@ -106,9 +107,9 @@ var Commands = {
             names: ['yell'],
             params: ['username'],
             description: 'Send high alert.',
-            execute: function() {
+            execute: function(user) {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve(Server.send(user.desk, 'yell'));
                 });
             }
         },

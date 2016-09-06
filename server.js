@@ -25,12 +25,7 @@ var Server = {
         }).listen(1337, function() {
         	console.log('tcp server running');
         });
-    },
-    alerts: {
-    	call: 0xF0,
-    	hail: 0xF1,
-    	yell: 0xF2,
-    	scream: 0xF3
+    }
 };
 
 module.exports = Server;
