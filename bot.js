@@ -7,7 +7,8 @@ var slackBot = require('slackbots'),
     sugar = require('sugar');
 
 var Command = require('./commands.js'),
-    User = require('./users.js');
+    User = require('./users.js'),
+    Server = require('./server.js');
 
 //var users = [];
 var botparams = { icon_emoji: process.env.BOT_EMOJI };
@@ -23,6 +24,7 @@ bot.on('start', function() {
             User.list = data.members;
             log.trace('total users: ' + User.list.length);
             log.trace('active users: ' + sugar.Object.count(User.list, { presence: 'active', is_bot: false }));
+            Server.start();
         });
 
     log.trace('initialzed: ' + process.env.BOT_NAME);
