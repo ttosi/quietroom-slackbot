@@ -22,23 +22,20 @@ bot.on('start', function() {
     bot.getUsers()
         .done(function(data) {
             User.list = data.members;
-            log.trace('total users: ' + User.list.length);
-            log.trace('active users: ' + sugar.Object.count(User.list, { presence: 'active', is_bot: false }));
+            log.info('total users: ' + User.list.length);
+            log.info('active users: ' + sugar.Object.count(User.list, { presence: 'active', is_bot: false }));
             Server.start();
         });
 
-    log.trace('initialzed: ' + process.env.BOT_NAME);
-    log.trace('started on: ' + new Date());
-    log.trace('token used: ' + process.env.SLACKBOT_TOKEN);
+    log.info('initialzed: ' + process.env.BOT_NAME);
+    log.info('started on: ' + new Date());
+    log.info('token used: ' + process.env.SLACKBOT_TOKEN);
 });
 
 bot.on('message', function(data) {
     if(data.type === 'message' && data.subtype !== 'bot_message' ) {
         var cmd = Command.parse(data.text)
-        console.log(data.user);
         var user = User.get(data.user);
-
-        console.log('user: ' + user);
 
         if(!cmd.command) {
             bot.postMessageToUser(user.name,

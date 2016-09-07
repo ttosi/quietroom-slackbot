@@ -9,25 +9,26 @@ var Server = {
         net.createServer(function (socket) {
         	socket.on('data', function(data) {
         		data += '';
-                var deskid = data.split(':')[0];
+                var deskId = data.split(':')[0];
                 var payload = data.split(':')[1];
-                var desk = Desk.get(deskid)
 
+                var desk = Desk.get(Desk.all, deskId);
                 if(!desk) {
-                    log.error(sugar.String.format('desk {0} was not found',
+                    log.error(sugar.String.format('deskId {0} was not found',
                         desk.name
                     ));
                 }
+
                 if(payload === 'heartbeat') {
                     desk.socket.write('ACK')
-                    log.debug(sugar.String.format('ACK sent to {0}',
+                    log.trace(sugar.String.format('ACK sent to {0}',
                         desk.name
                     ));
                     return;
         		}
 
                 desk.socket = socket;
-                log.debug(sugar.String.format('{0} successfully connected',
+                log.info(sugar.String.format('desk {0} successfully connected',
                     desk.name
                 ));
         	});

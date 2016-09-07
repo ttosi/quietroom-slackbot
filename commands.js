@@ -32,12 +32,6 @@ var Commands = {
         };
     },
     get: function(name) {
-        // return sugar.Object.filter(Commands.list, function(c) {
-        //     return c.names.indexOf(name) !== -1;
-        // })[0];
-        //
-        // return 
-
         return _.find(Commands.list, function(c) {
             return c.names.indexOf(name) !== -1;
         });
