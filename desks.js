@@ -25,8 +25,8 @@ var Desks = {
             desks.push(
                 Sugar.String.format(
                     '```{0} [{1}] {2}```',
-                    d.friendly,
                     d.name,
+                    d.id,
                     status
                 )
             );
@@ -34,12 +34,12 @@ var Desks = {
 
         return desks.join('\r\n');
     },
-    assign: function(user, name) {
+    assign: function(user, id) {
         if(user.desk) {
             return 'Ummm, dude. You\'re already using a desk.';
         }
 
-        var desk = Desks.get(Desks.available(), name);
+        var desk = Desks.get(Desks.available(), id);
         if(!desk) {
             return 'Fatal error! Well, not really fatal (but it does sound cool). ' +
                    'That desk is either in use, offline or doesn\'t exist.';
@@ -65,9 +65,9 @@ var Desks = {
 
         return 'You must now return to the glorious chaos of the office.';
     },
-    get: function(desks, name) {
+    get: function(desks, id) {
         return _.find(desks, function(d) {
-            return d.name === name;
+            return d.id === id;
         });
     },
     inuse: function() {
@@ -81,24 +81,6 @@ var Desks = {
         });
     },
     all: []
-    // [
-    //     {
-    //        name: 'qd1',
-    //        friendly: 'Quiet Desk 1',
-    //        location: 'Quiet Room',
-    //        in_use_by: undefined,
-    //        occupied_at: undefined,
-    //        socket: undefined,
-    //     },
-    //     {
-    //        name: 'qd2',
-    //        friendly: 'Quiet Desk 2',
-    //        location: 'Quiet Room',
-    //        in_use_by: undefined,
-    //        occupied_at: undefined,
-    //        socket: undefined,
-    //    }
-    // ]
 };
 
 module.exports = Desks;

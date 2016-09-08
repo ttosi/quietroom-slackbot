@@ -1,20 +1,19 @@
 if file.open("config.txt", "r") then
 	-- Load the config settings. This "object" defines a desk
 	-- and is the metadata that's expected by the server
-	ssid = file.readline()
-	psk = file.readline()
-	serveraddress = file.readline()
-	deskid = file.readline()
-	deskname = file.readline()
-	desklocation = file.readline()
-
-	print(ssid .. " " .. psk .. " " .. serveraddress .. " " .. deskid)
+	ssid = file.readline():match("^%s*(.-)%s*$") --regex trims
+	psk = file.readline():match("^%s*(.-)%s*$")
+	serveraddress = file.readline():match("^%s*(.-)%s*$")
+	serverport = file.readline():match("^%s*(.-)%s*$")
+	deskid = file.readline():match("^%s*(.-)%s*$")
+	deskname = file.readline():match("^%s*(.-)%s*$")
+	desklocation = file.readline():match("^%s*(.-)%s*$")
+	notificationDuration = ""
 
 	file.close()
 
 	wifi.setmode(wifi.STATION)
-	--wifi.sta.config(ssid, psk)
-	wifi.sta.config("ARM\ Insight", "4rm1n516h7")
+	wifi.sta.config(ssid, psk)
 
 	--  Wait until an ip is given by the AP and then
 	--  start client.lua
@@ -27,5 +26,5 @@ if file.open("config.txt", "r") then
 		end
 	end)
 else
-	print("FATAL ERROR - config.txt could not be opened. Does it exist?")
+	print("ERROR - config.txt could not be opened")
 end

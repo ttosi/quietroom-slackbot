@@ -14,16 +14,16 @@ ws2812.write(string.char(0, 0, 0, 0, 0, 0))
 
 --  Connect to the quiet bot server
 conn = net.createConnection(net.TCP, 0)
-conn:connect(1337, serveraddress)
+conn:connect(serverport, serveraddress)
 
 --  On successful connection, send the deskid
 --  so the server can register it to this device
 conn:on("connection", function(conn, c)
 	print("connected")
-	conn:send(deskid .. ":connect")
+	conn:send(deskid ..":".. deskname .."|".. desklocation)
 end)
 
---  Execute commamd received from bot server.
+--  Execute commamd received
 conn:on("receive", function(conn, data)
 	if data ~= nill then
 		if data == "ACK" then
@@ -39,7 +39,7 @@ conn:on("receive", function(conn, data)
 				toggle = not toggle
 			end)
 
-			--clear the led interval after 10 seoncds
+			--clear the led interval after X seoncds
 			tmr.alarm(6, 20000, 0, function()
 				ws2812.write(string.char(0, 0, 0, 0, 0, 0))
 				tmr.stop(5)

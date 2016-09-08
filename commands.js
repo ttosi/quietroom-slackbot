@@ -130,7 +130,7 @@ var Commands = {
         {
             names: ['cancel', 'stop'],
             params: [],
-            description: 'Cancel your alert and notify the sender (not a wise choice if they\'re screaming).',
+            description: 'Cancel an alert you sent',
             execute: function() {
                 return new promise(function(resolve, reject) {
                     resolve('My creator hasn\'t taught me how to do this one yet.');
