@@ -38,7 +38,7 @@ var Commands = {
     },
     list: [
         {
-            names: ['help'],
+            names: ['help', '?'],
             params: [],
             description: 'List available commands.',
             execute: function() {
@@ -48,7 +48,7 @@ var Commands = {
             }
         },
         {
-            names: ['list', 'show', 'who'],
+            names: ['list', 'show', 'who', 'ls'],
             params: [],
             description: 'List desks and who\'s using it.',
             execute: function() {
@@ -58,7 +58,7 @@ var Commands = {
             }
         },
         {
-            names: ['use', 'take'],
+            names: ['use', 'take', 'u'],
             params: ['deskname'],
             description: 'Assign yourself to a desk.',
             execute: function(user, deskname) {
@@ -68,7 +68,7 @@ var Commands = {
             }
         },
         {
-            names: ['leave', 'quit', 'exit'],
+            names: ['leave', 'quit', 'exit', 'q'],
             params: [],
             description: 'Leave your desk.',
             execute: function(user) {
@@ -78,7 +78,7 @@ var Commands = {
             }
         },
         {
-            names: ['call', 'whisper'],
+            names: ['hail', 'h'],
             params: ['username'],
             description: 'Send low alert.',
             execute: function() {
@@ -88,19 +88,9 @@ var Commands = {
             }
         },
         {
-            names: ['hail'],
+            names: ['yell', 'y'],
             params: ['username'],
             description: 'Send medium alert.',
-            execute: function() {
-                return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
-                });
-            }
-        },
-        {
-            names: ['yell'],
-            params: ['username'],
-            description: 'Send high alert.',
             execute: function(user) {
                 return new promise(function(resolve, reject) {
                     resolve(Server.send(user.desk, 'yell'));
@@ -118,7 +108,7 @@ var Commands = {
             }
         },
         {
-            names: ['wait', 'holdon'],
+            names: ['wait', 'holdon', 'w'],
             params: ['minutes'],
             description: 'Pause alert for minutes speficied. Works only for low and medium alerts.',
             execute: function() {
@@ -128,7 +118,7 @@ var Commands = {
             }
         },
         {
-            names: ['cancel', 'stop'],
+            names: ['cancel', 'stop', 'c'],
             params: [],
             description: 'Cancel an alert you sent',
             execute: function() {
@@ -138,7 +128,7 @@ var Commands = {
             }
         },
         {
-            names: ['mute', 'ignore', 'seriously?'],
+            names: ['mute', 'ignore', 'seriously?', 'm'],
             params: ['minutes'],
             description: 'Mute all incoming alerts for the minutes specified.',
             execute: function() {
@@ -148,7 +138,7 @@ var Commands = {
             }
         },
         {
-            names: ['boot', 'kick'],
+            names: ['boot', 'kick', 'b'],
             params: ['deskname'],
             description: 'Boot whoever is siiting at that desk.',
             execute: function() {
