@@ -31,11 +31,13 @@ bot.on('start', function() {
 });
 
 bot.on('message', function(data) {
-    if(data.type === 'message' && data.subtype !== 'bot_message' ) {
-        var cmd = Command.parse(data.text);
+    if(data.type === 'message' && data.subtype !== 'bot_message') {
+        var command = Command.parse(data.text);
         var user = User.get(data.user);
 
-        if(!cmd.command) {
+        console.log(command)
+
+        if(!command.execute) {
             bot.postMessageToUser(user.name,
                 'I\'m sorry, you\'re not making any sense. ' +
                 'Asking for `help` might be a good idea.', botParams
@@ -47,7 +49,7 @@ bot.on('message', function(data) {
             return;
         }
 
-        cmd.command.execute(user, cmd.param)
+        command.execute(user, command.params)
             .then(function(response) {
                 bot.postMessageToUser(user.name, response, botParams);
                 log.info(sugar.String.format('{0} => {1}',

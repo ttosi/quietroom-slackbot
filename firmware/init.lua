@@ -1,4 +1,4 @@
-if file.open("config.txt", "r") then
+if file.open(".config", "r") then
 	-- Load the config settings releated to this device
 	ssid = file.readline():match("^%s*(.-)%s*$") --regex trims
 	psk = file.readline():match("^%s*(.-)%s*$")
@@ -14,8 +14,8 @@ if file.open("config.txt", "r") then
 	wifi.setmode(wifi.STATION)
 	wifi.sta.config(ssid, psk)
 
-	--  Wait until an ip is offered by the AP, then
-	--  start the client
+	--  Wait until an address is offered by the AP,
+	-- then start client
 	tmr.alarm(0, 1000, 1, function()
 		if wifi.sta.getip() ~= nil then
 			tmr.stop(0);

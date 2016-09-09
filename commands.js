@@ -24,11 +24,13 @@ var Commands = {
     parse: function(cmdText) {
         var tokens = cmdText.split(' ');
         var name = tokens.shift().toLowerCase();
-        var param = tokens.join(' ').toLowerCase();
+        var params = tokens.join(' ').toLowerCase();
+
+        var command = Commands.get(name);
 
         return {
-            command: Commands.get(name),
-            param: param
+            execute: command.execute,
+            params: params,
         };
     },
     get: function(name) {
@@ -83,7 +85,7 @@ var Commands = {
             description: 'Send low alert.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve(Server.send(user.desk, 'hail'));
                 });
             }
         },
@@ -103,17 +105,17 @@ var Commands = {
             description: 'Send critical alert. Don\'t cry wolf, okay?',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve('My creator hasn\'t taught me how to do that yet.');
                 });
             }
         },
         {
             names: ['wait', 'holdon', 'w'],
             params: ['minutes'],
-            description: 'Pause alert for minutes speficied. Works only for low and medium alerts.',
+            description: 'Pause alert for minutes speficied. Works for low and medium alerts.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve('My creator hasn\'t taught me how to do that yet.');
                 });
             }
         },
@@ -123,7 +125,7 @@ var Commands = {
             description: 'Cancel an alert you sent',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve('My creator hasn\'t taught me how to do that yet.');
                 });
             }
         },
@@ -133,7 +135,7 @@ var Commands = {
             description: 'Mute all incoming alerts for the minutes specified.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve('My creator hasn\'t taught me how to do that yet.');
                 });
             }
         },
@@ -143,7 +145,7 @@ var Commands = {
             description: 'Boot whoever is siiting at that desk.',
             execute: function() {
                 return new promise(function(resolve, reject) {
-                    resolve('My creator hasn\'t taught me how to do this one yet.');
+                    resolve('My creator hasn\'t taught me how to do that yet.');
                 });
             }
         }
