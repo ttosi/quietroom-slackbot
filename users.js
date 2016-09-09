@@ -6,15 +6,11 @@ var sugar = require('sugar'),
 
 var User = {
     get: function(id) {
-        console.log(id);
-        var user = _.find(User.list, function () {
-            return id === id || name === id;
+        return _.find(User.list, function (u) {
+            return u.id === id || u.name === id;
         });
-        console.log(user);
-        return user;
     },
     init: function() {
-
     },
     list: []
 };

@@ -19,14 +19,15 @@ var bot = new slackBot({
 });
 
 bot.on('start', function() {
+    // git list of users then stat the bot server
     bot.getUsers()
         .done(function(data) {
             User.list = data.members;
+
+            log.info('started: ' + new Date());
+            log.info('token: ' + process.env.SLACKBOT_TOKEN);
             Server.start();
         });
-
-    log.info('started: ' + new Date());
-    log.info('token: ' + process.env.SLACKBOT_TOKEN);
 });
 
 bot.on('message', function(data) {
@@ -34,12 +35,11 @@ bot.on('message', function(data) {
         var cmd = Command.parse(data.text);
         var user = User.get(data.user);
 
-        //console.log(cmd);
-
         if(!cmd.command) {
             bot.postMessageToUser(user.name,
                 'I\'m sorry, you\'re not making any sense. ' +
-                'Asking for `help` might be a good idea.', botParams);
+                'Asking for `help` might be a good idea.', botParams
+            );
             log.error(sugar.String.format('invalid command: {0} => {1}',
                 user.name,
                 data.text
@@ -57,7 +57,8 @@ bot.on('message', function(data) {
             })
             .catch(function(err) {
                 bot.postMessageToUser(user.name,
-                    'Oops. Something went wrong. I\'ve logged the error and notified my owner.', botparams
+                    'Oops. Something went wrong. I\'ve ' +
+                    'logged the error and notified my owner.', botparams
                 );
                 log.error(sugar.String.format('{0} => {1}',
                     user.name,

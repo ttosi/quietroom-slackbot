@@ -19,7 +19,6 @@ conn:connect(serverport, serveraddress)
 --  On successful connection, send the deskid
 --  so the server can register it to this device
 conn:on("connection", function(conn, c)
-	print("connected")
 	conn:send(deskid ..":".. deskname .."|".. desklocation)
 end)
 
@@ -48,12 +47,12 @@ conn:on("receive", function(conn, data)
 	end
 end)
 
--- 	Send heartbeat to server every 5 minutes and wait
---	for an acknowlegdement. If no ACK is received within 15
---	seconds, reconnect to the bot server (by restarting).
-tmr.alarm(1, 60000, 1, function()
+-- 	Send heartbeat to server every 10 seconds and wait
+--	for an acknowlegdement. If no ACK is received within 2.5
+--	seconds, reconnect to the bot server by restarting.
+tmr.alarm(1, 10000, 1, function()
 	conn:send(deskid .. ":heartbeat")
-	tmr.alarm(2, 15000, 0, function()
+	tmr.alarm(2, 2500, 0, function()
 		node.restart()
 	end)
 end)

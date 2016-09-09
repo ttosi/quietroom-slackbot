@@ -8,14 +8,14 @@ var Server = {
     start: function() {
         net.createServer(function (socket) {
             socket.on('data', function(data) {
-        		data += '';
-                var deskId = data.split(':')[0];
-                var payload = data.split(':')[1];
+                data += ''; // convert the data to char
+                var deskId = data.split(':')[0],
+                    payload = data.split(':')[1];
 
                 var desk = Desk.get(Desk.all, deskId);
 
-                // respond to an existing desk when it requests
-                // an acknowlegdement with the heartbeat cmd
+                // respond to a desk when it requests an
+                // acknowlegdement via a 'heartbeat' cmd
                 if(desk && payload === 'heartbeat') {
                     desk.socket.write('ACK');
                     desk.socket.respondedAt = new Date();
@@ -55,15 +55,15 @@ var Server = {
     monitor: function() {
         setInterval(function() {
             // if the desk hasn't sent a heartbeat request
-            // for more than a minute, consider it offline
+            // for more than 20 seconds, consider it offline
             // and remove it from the registered desks
             _.forEach(Desk.all, function(d) {
-                if(sugar.Date.secondsAgo(d.socket.respondedAt) > 60) {
+                if(sugar.Date.secondsAgo(d.socket.respondedAt) > 20) {
                     _.remove(Desk.all, function(d) {
-                        return sugar.Date.secondsAgo(d.socket.respondedAt) > 60;
+                        return sugar.Date.secondsAgo(d.socket.respondedAt) >20;
                     });
 
-                    log.error(sugar.String.format('{0} has been disconnected', d.id));
+                    log.info(sugar.String.format('{0} timedout', d.id));
                 }
             });
         }, 30000);
