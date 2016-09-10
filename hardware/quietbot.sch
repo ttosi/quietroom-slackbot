@@ -1,0 +1,1 @@
+/home/ttosi/eagle/quietbot/quietbot.sch
