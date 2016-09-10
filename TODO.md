@@ -16,6 +16,10 @@
 * conversational responses that accept yes or no.
     * need to have timeout on user response?
 * implement conifg.js for settings and/or .env
+* move commands implementation to commands.js, rename commands.js -> command.js
 
-### quiet bot firmware
+### deskbot firmware
 * implement config.lua for settings (ssid, psk, server address, port, etc)
+
+### server <--> deskbot communication
+* poll or detect when the deskbot has been disconnected

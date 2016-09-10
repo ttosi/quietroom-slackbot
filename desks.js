@@ -1,11 +1,13 @@
 var Sugar = require('sugar'),
-    Promise = require('promise');
+    Promise = require('promise')
+    _ = require('lodash');
 
 var Desks = {
     list: function() {
         var desks = [];
-        Sugar.Object.forEach(this.all, function(d) {
+        _.forEach(Desks.all, function(d) {
             var status = '';
+
             if(!d.socket) {
                 status = 'OFFLINE';
             } else if(!d.in_use_by) {
@@ -23,8 +25,8 @@ var Desks = {
             desks.push(
                 Sugar.String.format(
                     '```{0} [{1}] {2}```',
-                    d.friendly,
                     d.name,
+                    d.id,
                     status
                 )
             );
@@ -32,15 +34,12 @@ var Desks = {
 
         return desks.join('\r\n');
     },
-    get: function(id) {
-        return Desks.all[Sugar.Object.find(Desks.all, { name: id })];
-    },
-    assign: function(user, deskname) {
+    assign: function(user, id) {
         if(user.desk) {
             return 'Ummm, dude. You\'re already using a desk.';
         }
 
-        var desk = Desks.all[Sugar.Object.find(Desks.available(), { name: deskname })];
+        var desk = Desks.get(Desks.available(), id);
         if(!desk) {
             return 'Fatal error! Well, not really fatal (but it does sound cool). ' +
                    'That desk is either in use, offline or doesn\'t exist.';
@@ -66,35 +65,22 @@ var Desks = {
 
         return 'You must now return to the glorious chaos of the office.';
     },
+    get: function(desks, id) {
+        return _.find(desks, function(d) {
+            return d.id === id;
+        });
+    },
     inuse: function() {
-        return Sugar.Object.filter(Desks.all, function(d) {
+        return _.filter(Desks.all, function(d) {
             return d.in_use_by;
         });
     },
     available: function() {
-        return Sugar.Object.filter(Desks.all, function(d) {
+        return _.filter(Desks.all, function(d) {
             return d.in_use_by !== undefined || d.socket !== undefined;
         });
     },
-    all:
-    [
-        {
-           name: 'qd1',
-           friendly: 'Quiet Desk 1',
-           location: 'Quiet Room',
-           in_use_by: undefined,
-           occupied_at: undefined,
-           socket: undefined,
-        },
-        {
-           name: 'qd2',
-           friendly: 'Quiet Desk 2',
-           location: 'Quiet Room',
-           in_use_by: undefined,
-           occupied_at: undefined,
-           socket: undefined,
-       }
-    ]
+    all: []
 };
 
 module.exports = Desks;
