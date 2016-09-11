@@ -43,7 +43,7 @@ var Server = {
                 ));
         	});
         }).listen(1337, function() {
-            log.info('desk server accepting connections on port 1337');
+            log.info('server accepting connections on port 1337');
         });
 
         // start monitoring connected desks
@@ -63,7 +63,7 @@ var Server = {
                         return sugar.Date.secondsAgo(d.socket.respondedAt) >20;
                     });
 
-                    log.info(sugar.String.format('{0} timedout', d.id));
+                    log.info(sugar.String.format('desk {0} timed out', d.id));
                 }
             });
         }, 30000);

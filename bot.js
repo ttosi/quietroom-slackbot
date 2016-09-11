@@ -19,7 +19,6 @@ var bot = new slackBot({
 });
 
 bot.on('start', function() {
-    // git list of users then stat the bot server
     bot.getUsers()
         .done(function(data) {
             User.list = data.members;
@@ -30,12 +29,10 @@ bot.on('start', function() {
         });
 });
 
-bot.on('message', function(data) {
-    if(data.type === 'message' && data.subtype !== 'bot_message') {
-        var command = Command.parse(data.text);
-        var user = User.get(data.user);
-
-        console.log(command)
+bot.on('message', function(message) {
+    if(message.type === 'message' && message.subtype !== 'bot_message') {
+        var command = Command.parse(message.text);
+        var user = User.get(message.user);
 
         if(!command.execute) {
             bot.postMessageToUser(user.name,
@@ -44,7 +41,7 @@ bot.on('message', function(data) {
             );
             log.error(sugar.String.format('invalid command: {0} => {1}',
                 user.name,
-                data.text
+                message.text
             ));
             return;
         }
@@ -54,7 +51,7 @@ bot.on('message', function(data) {
                 bot.postMessageToUser(user.name, response, botParams);
                 log.info(sugar.String.format('{0} => {1}',
                     user.name,
-                    data.text
+                    message.text
                 ));
             })
             .catch(function(err) {
