@@ -84,6 +84,7 @@ var Commands = {
             params: ['@username'],
             description: 'Send low alert.',
             execute: function(user) {
+                console.log();
                 return new promise(function(resolve, reject) {
                     resolve(Server.send(user.desk, 'call'));
                 });
