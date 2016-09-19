@@ -34,7 +34,7 @@ var Server = {
                     Desk.all.push(desk);
                 }
 
-                // even if the desk exists, the socket needs
+                // even if the desk exists, the socket should
                 // to be updated
                 desk.socket = socket;
                 desk.socket.respondedAt = new Date();
@@ -43,14 +43,18 @@ var Server = {
                 ));
         	});
         }).listen(1337, function() {
-            log.info('server accepting connections on port 1337');
+            log.info('server listening for desks on port 1337');
         });
 
         // start monitoring connected desks
         Server.monitor();
     },
-    send: function(desk, alert) {
-        desk.socket.write(alert);
+    send: function(receiversId, alert) {
+        return new promise(function(resolve, reject) {
+            console.log('---------------->' + receiversId);
+            resolve('fail!')
+        });
+        //desk.socket.write(alert);
     },
     monitor: function() {
         setInterval(function() {
