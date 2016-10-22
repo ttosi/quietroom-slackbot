@@ -8,22 +8,22 @@ var Server = {
     start: function() {
         net.createServer(function (socket) {
             socket.on('data', function(data) {
-                data += ''; // convert the data to char
-                var deskId = data.split(':')[0],
-                    payload = data.split(':')[1];
+                data += ''; // convert the data to chars
 
-                var desk = Desk.get(Desk.all, deskId);
+                var deskId = data.split(':')[0],
+                    payload = data.split(':')[1],
+                    desk = Desk.get(Desk.all, deskId);
 
                 // respond to a desk when it requests an
-                // acknowlegdement via a 'heartbeat' cmd
+                // acknowlegdement via the 'heartbeat' cmd
                 if(desk && payload === 'heartbeat') {
                     desk.socket.write('ACK');
                     desk.socket.respondedAt = new Date();
                     return;
                 }
 
-                // when the desk doesn't exist, create a new one
-                // from the sent data and register it
+                // when a desk doesn't exist, create
+                // and register it
                 if(!desk) {
                     var properties = payload.split('|');
                     desk = {
@@ -31,11 +31,12 @@ var Server = {
                         name: properties[0],
                         location: properties[1]
                     };
+
                     Desk.all.push(desk);
                 }
 
-                // even if the desk exists, the socket should
-                // to be updated
+                // even if the desk exists, the
+                // socket should be updated
                 desk.socket = socket;
                 desk.socket.respondedAt = new Date();
                 log.info(sugar.String.format('desk {0} successfully connected',
@@ -60,7 +61,7 @@ var Server = {
         setInterval(function() {
             // if the desk hasn't sent a heartbeat request
             // for more than 20 seconds, consider it offline
-            // and remove it from the registered desks
+            // and remove it
             _.forEach(Desk.all, function(d) {
                 if(sugar.Date.secondsAgo(d.socket.respondedAt) > 20) {
                     _.remove(Desk.all, function(d) {

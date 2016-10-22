@@ -34,13 +34,13 @@ bot.on('message', function(message) {
         var command = Command.parse(message.text);
         var user = User.get(message.user);
 
-        console.log(user.name);
+        //console.log(user.name);
         //console.log(command.params);
 
         if(!command.execute) {
             bot.postMessageToUser(user.name,
                 'I\'m sorry, you\'re not making any sense. ' +
-                'Asking for `help` might be a good idea.', botParams
+                'Type `help` for available commands.', botParams
             );
             log.error(sugar.String.format('invalid command: {0} => {1}',
                 user.name,
