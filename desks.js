@@ -1,3 +1,5 @@
+'use strict'
+
 var Sugar = require('sugar'),
     Promise = require('promise')
     _ = require('lodash');

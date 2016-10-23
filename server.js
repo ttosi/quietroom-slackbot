@@ -1,8 +1,12 @@
+'use strict'
+
 var sugar = require('sugar'),
     net = require('net'),
+	promise = require('promise'),
     log = require('log4js').getLogger();
 
-var Desk = require('./desks.js');
+var Desk = require('./desks.js'),
+	User = require('./users.js');
 
 var Server = {
     start: function() {
@@ -50,12 +54,17 @@ var Server = {
         // start monitoring connected desks
         Server.monitor();
     },
-    send: function(receiversId, alert) {
+    send: function(alert, receiverId) {
         return new promise(function(resolve, reject) {
-            console.log('---------------->' + receiversId);
-            resolve('fail!')
+			var user = User.get(receiverId);
+
+			if(!user.desk) {
+				resolve('Doesn\'t look like ' + user.profile.first_name + ' is at a quiet room desk.');
+			}
+
+			user.desk.socket.write(alert);
+			resolve('They are being hailed!');
         });
-        //desk.socket.write(alert);
     },
     monitor: function() {
         setInterval(function() {

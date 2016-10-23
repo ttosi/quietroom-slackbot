@@ -1,6 +1,8 @@
+'use strict'
+
 var sugar = require('sugar'),
-    promise = require('promise')
-_ = require('lodash');
+    promise = require('promise'),
+	_ = require('lodash');
 
 var Desk = require('./desks.js'),
     Server = require('./server.js');
@@ -31,7 +33,7 @@ var Commands = {
         var command = Commands.get(name);
 
         return {
-            execute: command.execute,
+            execute: command ? command.execute : undefined,
             params: params,
         };
     },
@@ -81,24 +83,23 @@ var Commands = {
         names: ['call'],
         params: ['@username'],
         description: 'Send low alert',
-        execute: function(receiverId) {
-            console.log();
+        execute: function(user, receiverId) {
             return new promise(function(resolve, reject) {
-                resolve(Server.send('call', receiversId));
+                Server.send('call', receiverId)
+                    .then(function(response) {
+                        resolve(response);
+                    });
             });
         }
     }, {
         names: ['yell'],
         params: ['@username'],
         description: 'Send medium alert',
-        execute: function(user) {
-            return new promise(function(resolve, reject) {
-                Server.send(user.desk, 'yell')
+        execute: function(user, receiverId) {
+			return new promise(function(resolve, reject) {
+                Server.send('yell', receiverId)
                     .then(function(response) {
                         resolve(response);
-                    })
-                    .catch(function(err) {
-                        console.log(err);
                     });
             });
         }
@@ -106,9 +107,12 @@ var Commands = {
         names: ['911'],
         params: ['@username'],
         description: 'Send critical alert; don\'t cry wolf, okay?',
-        execute: function() {
-            return new promise(function(resolve, reject) {
-                resolve('My creator hasn\'t taught me how to do that yet.');
+        execute: function(user, receiverId) {
+			return new promise(function(resolve, reject) {
+                Server.send('call', receiverId)
+                    .then(function(response) {
+                        resolve(response);
+                    });
             });
         }
     }]

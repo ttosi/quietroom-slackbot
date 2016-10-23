@@ -34,9 +34,6 @@ bot.on('message', function(message) {
         var command = Command.parse(message.text);
         var user = User.get(message.user);
 
-        //console.log(user.name);
-        //console.log(command.params);
-
         if(!command.execute) {
             bot.postMessageToUser(user.name,
                 'I\'m sorry, you\'re not making any sense. ' +
