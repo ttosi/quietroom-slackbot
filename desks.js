@@ -1,3 +1,5 @@
+'use strict'
+
 var Sugar = require('sugar'),
     Promise = require('promise')
     _ = require('lodash');
@@ -36,7 +38,7 @@ var Desks = {
     },
     assign: function(user, id) {
         if(user.desk) {
-            return 'Ummm, dude. You\'re already using a desk.';
+            return 'Ummm, dude, you\'re already using a desk.';
         }
 
         var desk = Desks.get(Desks.available(), id);
@@ -59,8 +61,8 @@ var Desks = {
             return 'What up yo. You\'re not sitting at a desk in the quiet room.';
         }
 
-        user.desk.in_use_by = undefined;
-        user.desk.occupied_at = undefined;
+        //user.desk.in_use_by = undefined;
+        //user.desk.occupied_at = undefined;
         delete user.desk;
 
         return 'You must now return to the glorious chaos of the office.';
