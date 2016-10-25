@@ -1,12 +1,13 @@
 'use strict'
 
 var Sugar = require('sugar'),
-    Promise = require('promise')
+    Promise = require('promise'),
     _ = require('lodash');
 
 var Desks = {
     list: function() {
         var desks = [];
+
         _.forEach(Desks.all, function(d) {
             var status = '';
 
@@ -26,7 +27,7 @@ var Desks = {
 
             desks.push(
                 Sugar.String.format(
-                    '```{0} [{1}] {2}```',
+                    '```{0} ({1}) {2}```',
                     d.name,
                     d.id,
                     status
@@ -38,13 +39,14 @@ var Desks = {
     },
     assign: function(user, id) {
         if(user.desk) {
-            return 'Ummm, dude, you\'re already using a desk.';
+            return "Ummm, dude, you're already using a desk.";
         }
 
         var desk = Desks.get(Desks.available(), id);
-        if(!desk) {
-            return 'Fatal error! Well, not really fatal (but it does sound cool). ' +
-                   'That desk is either in use, offline or doesn\'t exist.';
+
+		if(!desk) {
+            return 'Fatal error! Well, not really, but it does sound cool. ' +
+                   "That desk is either in use, offline or doesn't exist.";
         }
 
         desk.occupied_at = new Date();
@@ -58,18 +60,18 @@ var Desks = {
     },
     leave: function (user) {
         if(!user.desk) {
-            return 'What up yo. You\'re not sitting at a desk in the quiet room.';
+            return "What up yo. You're not sitting at a desk in the quiet room.";
         }
 
-        //user.desk.in_use_by = undefined;
-        //user.desk.occupied_at = undefined;
+        user.desk.in_use_by = undefined;
+        user.desk.occupied_at = undefined;
         delete user.desk;
 
         return 'You must now return to the glorious chaos of the office.';
     },
     get: function(desks, id) {
         return _.find(desks, function(d) {
-            return d.id === id;
+            return d.id.toLowerCase() === id.toLowerCase();
         });
     },
     inuse: function() {

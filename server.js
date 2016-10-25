@@ -3,6 +3,7 @@
 var sugar = require('sugar'),
     net = require('net'),
 	promise = require('promise'),
+	_ = require('lodash'),
     log = require('log4js').getLogger();
 
 var Desk = require('./desks.js'),
@@ -12,7 +13,7 @@ var Server = {
     start: function() {
         net.createServer(function (socket) {
             socket.on('data', function(data) {
-                data += ''; // convert the data to chars
+                data += ''; // convert the data to string
 
                 var deskId = data.split(':')[0],
                     payload = data.split(':')[1],
@@ -43,7 +44,7 @@ var Server = {
                 // socket should be updated
                 desk.socket = socket;
                 desk.socket.respondedAt = new Date();
-                log.info(sugar.String.format('desk {0} successfully connected',
+                log.trace(sugar.String.format('desk {0} successfully connected',
                     desk.id
                 ));
         	});
@@ -59,7 +60,11 @@ var Server = {
 			var user = User.get(receiverId);
 
 			if(!user.desk) {
-				resolve('Doesn\'t look like ' + user.profile.first_name + ' is at a quiet room desk.');
+				resolve(
+					sugar.String.format("Doesn't look like {0}' is at a desk right now.",
+						user.profile.first_name
+					)
+				);
 			}
 
 			user.desk.socket.write(alert);
@@ -77,7 +82,7 @@ var Server = {
                         return sugar.Date.secondsAgo(d.socket.respondedAt) >20;
                     });
 
-                    log.info(sugar.String.format('desk {0} timed out', d.id));
+                    log.trace(sugar.String.format('desk {0} timed out', d.id));
                 }
             });
         }, 30000);

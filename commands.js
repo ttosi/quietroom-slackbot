@@ -42,7 +42,8 @@ var Commands = {
             return c.names.indexOf(name) !== -1;
         });
     },
-    list: [{
+    list: [
+	{
         names: ['help'],
         params: [],
         description: 'Show help',
@@ -97,7 +98,7 @@ var Commands = {
         description: 'Send medium alert',
         execute: function(user, receiverId) {
 			return new promise(function(resolve, reject) {
-                Server.send('yell', receiverId)
+				Server.send('yell', receiverId)
                     .then(function(response) {
                         resolve(response);
                     });
@@ -106,10 +107,10 @@ var Commands = {
     }, {
         names: ['911'],
         params: ['@username'],
-        description: 'Send critical alert; don\'t cry wolf, okay?',
+        description: "Send critical alert; don't cry wolf, okay?",
         execute: function(user, receiverId) {
 			return new promise(function(resolve, reject) {
-                Server.send('call', receiverId)
+                Server.send('911', receiverId)
                     .then(function(response) {
                         resolve(response);
                     });

@@ -36,7 +36,7 @@ bot.on('message', function(message) {
 
         if(!command.execute) {
             bot.postMessageToUser(user.name,
-                'I\'m sorry, you\'re not making any sense. ' +
+                "I'm sorry, I don't understand what you're asking of me. " +
                 'Type `help` for available commands.', botParams
             );
             log.error(sugar.String.format('invalid command: {0} => {1}',
@@ -56,7 +56,7 @@ bot.on('message', function(message) {
             })
             .catch(function(err) {
                 bot.postMessageToUser(user.name,
-                    'Oops. Something went wrong. I\'ve ' +
+                    "Oops. Something went wrong. I've " +
                     'logged the error and notified my owner.', botparams
                 );
                 log.error(sugar.String.format('{0} => {1}',
