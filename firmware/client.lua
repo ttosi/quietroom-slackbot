@@ -1,16 +1,10 @@
--- Define some colors
-red = string.char(255, 0, 0)
-green = string.char(0, 128, 0)
-blue = string.char(0, 0, 255)
-yellow = string.char(255, 255, 0)
-cyan = string.char(0, 255, 255)
-magenta = string.char(255, 0, 255)
 
-toggle = false
-
--- Initialize the pixels and set them to offline
-ws2812.init(ws2812.MODE_SINGLE)
-ws2812.write(string.char(0, 0, 0, 0, 0, 0))
+-- Define pixel colors
+red =   { 0, 255, 0 }
+blue =  { 0, 0, 255 }
+green = { 255, 0, 0 }
+black = { 0, 0, 0 }
+white = { 128, 128, 128 }
 
 --  Connect to the quiet bot server
 conn = net.createConnection(net.TCP, 0)
@@ -28,19 +22,60 @@ conn:on("receive", function(conn, data)
 		if data == "ACK" then
 			tmr.stop(2)
 		else
-			-- start the interval timer for flashing the leds
-			tmr.alarm(5, 300, 1, function()
-				if toggle then
-					ws2812.write(string.char(red, blue))
-				else
-					ws2812.write(string.char(blue, red))
-				end
-				toggle = not toggle
-			end)
+			print("command received => " .. data)
+			toggle = false
 
-			--clear the led interval after X seoncds
-			tmr.alarm(6, 20000, 0, function()
-				ws2812.write(string.char(0, 0, 0, 0, 0, 0))
+			if(data == "911") then
+				-- Start the interval timer for flashing the leds
+				tmr.alarm(5, 90, 1, function ()
+					if toggle then
+						buffer:set(1, red)
+						buffer:set(2, red)
+						buffer:set(3, blue)
+						buffer:set(4, blue)
+					else
+						buffer:set(1, blue)
+						buffer:set(2, blue)
+						buffer:set(3, red)
+						buffer:set(4, red)
+					end
+
+					toggle = not toggle
+					ws2812.write(buffer)
+				end)
+			end
+
+			if(data == "yell") then
+				tmr.alarm(5, 300, 1, function ()
+					if toggle then
+						buffer:fill(128, 128, 0)
+					else
+						buffer:fill(0, 0, 0)
+					end
+
+					toggle = not toggle
+					ws2812.write(buffer)
+				end)
+			end
+
+			if(data == "call") then
+				tmr.alarm(5, 1250, 1, function ()
+					if toggle then
+						buffer:fill(0, 128, 128)
+					else
+						buffer:fill(0, 0, 0)
+					end
+
+					toggle = not toggle
+					ws2812.write(buffer)
+				end)
+			end
+
+			-- Clear the led interval after X seconds;
+			-- currently set to be enabled for 20 seconds
+			tmr.alarm(6, 10000, 0, function()
+				buffer:fill(0, 0, 0)
+				ws2812.write(buffer)
 				tmr.stop(5)
 			end)
 		end
