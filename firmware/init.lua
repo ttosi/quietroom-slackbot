@@ -5,7 +5,7 @@ buffer:fill(0, 0, 0)
 ws2812.write(buffer)
 
 if file.open(".config", "r") then
-	-- Load the config settings
+	-- Load the config settings stored in .config
 	ssid = file.readline():match("^%s*(.-)%s*$") --regex does trimming
 	psk = file.readline():match("^%s*(.-)%s*$")
 	serveraddress = file.readline():match("^%s*(.-)%s*$")
@@ -16,12 +16,14 @@ if file.open(".config", "r") then
 
 	file.close()
 
+	-- Connect to the AP as a client
 	wifi.setmode(wifi.STATION)
 	wifi.sta.config(ssid, psk)
 
-	--  Wait until an address is offered by the AP,
+	--  Wait until an address is offered by the AP
 	--  then start client.lua
 	tmr.alarm(0, 1000, 1, function()
+		-- An IP has been successuly offered by the AP
 		if wifi.sta.getip() ~= nil then
 			tmr.stop(0);
 

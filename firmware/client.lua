@@ -1,4 +1,3 @@
-
 -- Define pixel colors
 red =   { 0, 255, 0 }
 blue =  { 0, 0, 255 }
@@ -16,7 +15,7 @@ conn:on("connection", function(conn, c)
 	conn:send(deskid ..":".. deskname .."|".. desklocation)
 end)
 
---  Execute commamd received
+--  Execute the commamd received
 conn:on("receive", function(conn, data)
 	if data ~= nill then
 		if data == "ACK" then
@@ -25,9 +24,11 @@ conn:on("receive", function(conn, data)
 			print("command received => " .. data)
 			toggle = false
 
+			-- Alternat the color red/blue like a police car
 			if(data == "911") then
-				-- Start the interval timer for flashing the leds
-				tmr.alarm(5, 90, 1, function ()
+				-- This interval defines how quickly the colors
+				-- alternate
+				tmr.alarm(5, 125, 1, function ()
 					if toggle then
 						buffer:set(1, red)
 						buffer:set(2, red)
@@ -45,6 +46,7 @@ conn:on("receive", function(conn, data)
 				end)
 			end
 
+			-- Flash the pixels quickly in yellow
 			if(data == "yell") then
 				tmr.alarm(5, 300, 1, function ()
 					if toggle then
@@ -58,6 +60,7 @@ conn:on("receive", function(conn, data)
 				end)
 			end
 
+			-- Flash the pixels slowly in purple
 			if(data == "call") then
 				tmr.alarm(5, 1250, 1, function ()
 					if toggle then
@@ -71,8 +74,8 @@ conn:on("receive", function(conn, data)
 				end)
 			end
 
-			-- Clear the led interval after X seconds;
-			-- currently set to be enabled for 20 seconds
+			-- Clear the active pixel interval after the
+			-- seconds defined
 			tmr.alarm(6, 10000, 0, function()
 				buffer:fill(0, 0, 0)
 				ws2812.write(buffer)
@@ -82,8 +85,8 @@ conn:on("receive", function(conn, data)
 	end
 end)
 
--- 	Send heartbeat to server every 10 seconds and wait
---	for an acknowlegdement. If no ACK is received within 2.5
+-- 	Send heartbeat to the bot server every 10 seconds and wait
+--	for an acknowlegdement. If no 'ACK' is received within 2.5
 --	seconds, reconnect to the bot server by restarting.
 tmr.alarm(1, 10000, 1, function()
 	conn:send(deskid .. ":heartbeat")
