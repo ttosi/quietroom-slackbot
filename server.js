@@ -55,22 +55,24 @@ var Server = {
         // start monitoring connected desks
         Server.monitor();
     },
+
     send: function(alert, receiverId) {
         return new promise(function(resolve, reject) {
 			var user = User.get(receiverId);
 
 			if(!user.desk) {
 				resolve(
-					sugar.String.format("Doesn't look like {0}' is at a desk right now.",
+					sugar.String.format("Doesn't look like {0}' is at a desk right now :disappointed:.",
 						user.profile.first_name
 					)
 				);
 			}
 
 			user.desk.socket.write(alert);
-			resolve('They are being hailed!');
+			resolve(':star::star: They are being hailed! :star::star:');
         });
     },
+
     monitor: function() {
         setInterval(function() {
             // if the desk hasn't sent a heartbeat request

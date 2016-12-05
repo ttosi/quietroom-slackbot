@@ -15,6 +15,7 @@
 	* need to have timeout on user response?
 * ~~implement conifg.js for settings and/or .env~~
 * ~~move commands implementation to commands.js, rename commands.js -> command.js~~
+* in console output, show username along with slack id
 
 ### quietbot firmware
 * ~~implement config.lua for settings (ssid, psk, server address, port, etc)~~

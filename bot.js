@@ -25,12 +25,14 @@ bot.on('start', function() {
 
             log.info('started: ' + new Date());
             log.info('token: ' + process.env.SLACKBOT_TOKEN);
-            Server.start();
+
+			Server.start();
         });
 });
 
 bot.on('message', function(message) {
-    if(message.type === 'message' && message.subtype !== 'bot_message') {
+	// filter out only the relevant messgae types
+	if(message.type === 'message' && message.subtype !== 'bot_message') {
         var command = Command.parse(message.text);
         var user = User.get(message.user);
 
@@ -46,8 +48,9 @@ bot.on('message', function(message) {
             return;
         }
 
+		// the command.execute function returns a promise
         command.execute(user, command.params)
-            .then(function(response) {
+			.then(function(response) {
                 bot.postMessageToUser(user.name, response, botParams);
                 log.info(sugar.String.format('{0} => {1}',
                     user.name,

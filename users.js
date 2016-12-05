@@ -6,7 +6,7 @@ var sugar = require('sugar'),
 
 var User = {
     get: function(id) {
-		// when a user is sent as @user slack sends it
+		// when a user is sent as @user, slack sends it
 		// in the format: <@userid>. If that's the case,
 		// parse out the id
 		if(id.startsWith('<@')) {
@@ -17,9 +17,8 @@ var User = {
             return u.id === id || u.name === id;
         });
     },
-    init: function() {
-    },
-
+	// leave empty until the members are returned
+	// from bot('start') getUsers API call
     list: []
 };
 

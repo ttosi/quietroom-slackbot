@@ -25,8 +25,12 @@ var Commands = {
 
         return commands.join('\r\n');
     },
+
     parse: function(cmdText) {
-        var tokens = cmdText.split(' ');
+		// split on spaces so not a super intelligent bot
+		// fomrat is expect to be a command then optionally
+		// a paramteer <comm
+		var tokens = cmdText.split(' '); // tokens in a split string kinad way
         var name = tokens.shift().toLowerCase();
         var params = tokens.join(' ').toLowerCase();
 
@@ -37,11 +41,13 @@ var Commands = {
             params: params,
         };
     },
+
     get: function(name) {
         return _.find(Commands.list, function(c) {
             return c.names.indexOf(name) !== -1;
         });
     },
+
     list: [
 	{
         names: ['help'],
